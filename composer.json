@@ -1,0 +1,17 @@
+{
+    "name": "hexlet/code",
+    "description": "Takes two json/yml/ini files and creates a customizable visual diff",
+    "type": "utility",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "solovyev",
+            "email": "a.solovyev@telecontact.ru"
+        }
+    ],
+    "require": {}
+}
