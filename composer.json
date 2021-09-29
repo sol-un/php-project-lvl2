@@ -3,9 +3,9 @@
     "description": "Takes two json/yml/ini files and creates a customizable visual diff",
     "type": "utility",
     "autoload": {
-        "psr-4": {
-            "Hexlet\\Code\\": "src/"
-        }
+      "files": [
+        "src/gendiff.php"
+      ]
     },
     "authors": [
         {
@@ -13,5 +13,7 @@
             "email": "a.solovyev@telecontact.ru"
         }
     ],
-    "require": {}
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
 }
