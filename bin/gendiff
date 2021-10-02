@@ -2,8 +2,6 @@
 
 <?php
 
-use Docopt\Response;
-
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
 
@@ -32,5 +30,6 @@ Options:
 DOC;
 
 $args = \Docopt::handle($doc, array('version'=>'Gendiff 1.0'));
+["<firstFile>" => $firstFilePath, "<secondFile>" => $secondFilePath] = $args;
 
-gendiff($args);
+print_r(gendiff($firstFilePath, $secondFilePath));

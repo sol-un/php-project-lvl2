@@ -12,22 +12,23 @@ function build(array $prevData, array $newData): array
         ->sort()
         ->map(
             function ($key) use ($prevData, $newData) {
-                $prevValue = $prevData[$key];
-                $newValue = $newData[$key];
                 if (!array_key_exists($key, $newData)) {
                     return [
                       'name' => $key,
-                      'type' => 'deleted',
-                      'value' => $prevValue
-                    ];
+                          'type' => 'deleted',
+                          'value' => $prevData[$key]
+                        ];
                 }
                 if (!array_key_exists($key, $prevData)) {
                     return [
                       'name' => $key,
                       'type' => 'added',
-                      'value' => $newValue
+                      'value' => $newData[$key]
                     ];
                 }
+
+                $prevValue = $prevData[$key];
+                $newValue = $newData[$key];
                 if ($prevValue !== $newValue) {
                     return [
                       'name' => $key,
