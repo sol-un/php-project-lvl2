@@ -2,8 +2,11 @@
 
 <?php
 
+use Docopt\Response;
+
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
+
 
 if (file_exists($autoloadPath1)) {
     require_once $autoloadPath1;
@@ -11,7 +14,7 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-use function Gendiff\Gendiff\greet;
+use function Gendiff\Gendiff\gendiff;
 
 $doc = <<<DOC
 Generate diff
@@ -28,6 +31,6 @@ Options:
 
 DOC;
 
-$args = Docopt::handle($doc, array('version'=>'Gendiff 1.0'));
+$args = \Docopt::handle($doc, array('version'=>'Gendiff 1.0'));
 
-greet($args);
+gendiff($args);
