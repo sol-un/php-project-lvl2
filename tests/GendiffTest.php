@@ -14,12 +14,26 @@ function getFixturePath(string $filename): string
 
 class GendiffTest extends TestCase
 {
-    public function testGendiff(): void
+    private $expectedStylish;
+
+    public function setUp(): void
+    {
+        $this->expectedStylish = readFile(getFixturePath('expected_stylish.txt'));
+    }
+
+    public function testGendiffJSON(): void
     {
         $beforeJSON = getFixturePath('before.json');
         $afterJSON = getFixturePath('after.json');
-        $expectedJSON = readFile(getFixturePath('expected_json.txt'));
 
-        $this->assertEquals(gendiff($beforeJSON, $afterJSON), $expectedJSON);
+        $this->assertEquals(gendiff($beforeJSON, $afterJSON), $this->expectedStylish);
+    }
+
+    public function testGendiffYAML(): void
+    {
+        $beforeYAML = getFixturePath('before.yaml');
+        $afterYAML = getFixturePath('after.yaml');
+
+        $this->assertEquals(gendiff($beforeYAML, $afterYAML), $this->expectedStylish);
     }
 }
