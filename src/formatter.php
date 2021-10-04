@@ -9,12 +9,12 @@ function indent(int $depth): string
     return str_repeat('  ', $depth);
 }
 
-function renderLine(int $depth, string $prefix, string $key, mixed $value): string
+function renderLine(int $depth, string $prefix, string $key, $value): string
 {
     return indent($depth) . "{$prefix}{$key}: {$value}";
 }
 
-function renderValue(mixed $value, int $depth): mixed
+function renderValue(mixed $value, int $depth)
 {
     switch (gettype($value)) {
         case "boolean":
