@@ -14,7 +14,7 @@ function renderLine(int $depth, string $prefix, string $key, $value): string
     return indent($depth) . "{$prefix}{$key}: {$value}";
 }
 
-function renderValue($value, int $depth)
+function renderValue(mixed $value, int $depth)
 {
     switch (gettype($value)) {
         case "boolean":
