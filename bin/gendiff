@@ -30,6 +30,6 @@ Options:
 DOC;
 
 $args = \Docopt::handle($doc, array('version'=>'Gendiff 1.0'));
-["<firstFile>" => $firstFilePath, "<secondFile>" => $secondFilePath] = $args;
+["--format" => $format, "<firstFile>" => $firstFilePath, "<secondFile>" => $secondFilePath] = $args;
 
-print_r(gendiff($firstFilePath, $secondFilePath));
+print_r(gendiff($format, $firstFilePath, $secondFilePath));

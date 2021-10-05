@@ -6,7 +6,9 @@
     "files": [
       "src/gendiff.php",
       "src/builder.php",
-      "src/formatter.php",
+      "src/formatters/index.php",
+      "src/formatters/stylish.php",
+      "src/formatters/plain.php",
       "src/parser.php"
     ]
   },
