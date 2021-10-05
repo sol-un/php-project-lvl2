@@ -25,7 +25,6 @@ class GendiffTest extends TestCase
     {
         $beforeJSON = getFixturePath('before.json');
         $afterJSON = getFixturePath('after.json');
-
         $this->assertEquals(gendiff($beforeJSON, $afterJSON), $this->expectedStylish);
     }
 

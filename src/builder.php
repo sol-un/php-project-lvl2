@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 function build(array $prevData, array $newData): array
 {
-    return collect(array_keys($prevData))
+    $ast = collect(array_keys($prevData))
         ->merge(array_keys($newData))
         ->unique()
         ->sort()
@@ -29,6 +29,13 @@ function build(array $prevData, array $newData): array
 
                 $prevValue = $prevData[$key];
                 $newValue = $newData[$key];
+                if (gettype($prevValue) === 'array' && gettype($newValue) === 'array') {
+                    return [
+                        'name' => $key,
+                        'type' => 'nested',
+                        'children' => build($prevValue, $newValue)
+                    ];
+                }
                 if ($prevValue !== $newValue) {
                     return [
                       'name' => $key,
@@ -45,4 +52,5 @@ function build(array $prevData, array $newData): array
             }
         )
         ->all();
+    return $ast;
 }
