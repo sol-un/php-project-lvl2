@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Formatter;
+namespace Gendiff\Formatters\Stylish;
 
 use Illuminate\Support\Collection;
 
@@ -15,7 +15,7 @@ function renderLine(int $depth, string $prefix, string $key, $value): string
     return "{$indent}{$prefix}{$key}: {$value}";
 }
 
-function renderValue($value, int $depth)
+function renderValue($value, int $depth): string
 {
     switch (gettype($value)) {
         case "boolean":
@@ -37,7 +37,7 @@ function renderValue($value, int $depth)
     }
 }
 
-function getRenderFnDispatcher($type)
+function getRenderFn($type)
 {
     switch ($type) {
         case "nested":
@@ -66,13 +66,13 @@ function getRenderFnDispatcher($type)
     }
 }
 
-function renderNode(array $ast, int $depth = 0): string
+function render(array $ast, int $depth = 0): string
 {
     $lines = collect($ast)
         ->map(
             function ($node) use ($depth) {
                 $type = $node["type"];
-                return namespace\getRenderFnDispatcher($type)($node, $depth + 1, __NAMESPACE__ . '\\' . 'renderNode');
+                return getRenderFn($type)($node, $depth + 1, __NAMESPACE__ . '\\' . 'render');
             }
         )
         ->join("\n");
@@ -80,7 +80,7 @@ function renderNode(array $ast, int $depth = 0): string
     return "{\n{$lines}\n{$indent}}";
 }
 
-function render($ast): string
+function renderStylish($ast): string
 {
-    return renderNode($ast) . "\n";
+    return render($ast) . "\n";
 }
