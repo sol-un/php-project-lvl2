@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Builder;
+namespace Differ\Builder;
 
 use Illuminate\Support\Collection;
 
@@ -14,16 +14,16 @@ function build(array $prevData, array $newData): array
             function ($key) use ($prevData, $newData) {
                 if (!array_key_exists($key, $newData)) {
                     return [
-                      'name' => $key,
-                          'type' => 'deleted',
-                          'value' => $prevData[$key]
-                        ];
+                        'name' => $key,
+                        'type' => 'deleted',
+                        'value' => $prevData[$key]
+                    ];
                 }
                 if (!array_key_exists($key, $prevData)) {
                     return [
-                      'name' => $key,
-                      'type' => 'added',
-                      'value' => $newData[$key]
+                        'name' => $key,
+                        'type' => 'added',
+                        'value' => $newData[$key]
                     ];
                 }
 
@@ -38,16 +38,16 @@ function build(array $prevData, array $newData): array
                 }
                 if ($prevValue !== $newValue) {
                     return [
-                      'name' => $key,
-                      'type' => 'changed',
-                      'prevValue' => $prevValue,
-                      'newValue' => $newValue
+                        'name' => $key,
+                        'type' => 'changed',
+                        'prevValue' => $prevValue,
+                        'newValue' => $newValue
                     ];
                 }
                 return [
-                  'name' => $key,
-                  'type' => 'unchanged',
-                  'value' => $prevValue
+                    'name' => $key,
+                    'type' => 'unchanged',
+                    'value' => $prevValue
                 ];
             }
         )

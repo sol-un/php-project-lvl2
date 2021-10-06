@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
 function renderValue($value): string
 {
@@ -11,8 +11,10 @@ function renderValue($value): string
             return "null";
         case "array":
             return "[complex value]";
-        default:
+        case "string":
             return "'{$value}'";
+        default:
+            return $value;
     }
 }
 
@@ -47,24 +49,19 @@ function getRenderFn($type)
                 return "Property '{$path}' was updated. From {$prevValue} to {$newValue}";
             };
         case "unchanged":
-            return fn() => null;
+            return fn () => null;
     }
 }
 
-function render(array $ast, array $parentNames = []): string
+function renderPlain(array $ast, array $parentNames = []): string
 {
     return collect($ast)
         ->map(
             function ($node) use ($parentNames) {
                 $type = $node["type"];
-                return getRenderFn($type)($node, $parentNames, __NAMESPACE__ . '\\' . 'render');
+                return getRenderFn($type)($node, $parentNames, __NAMESPACE__ . '\\' . 'renderPlain');
             }
         )
-        ->filter(fn($item) => $item)
+        ->filter(fn ($item) => $item)
         ->join("\n");
-}
-
-function renderPlain($ast): string
-{
-    return render($ast) . "\n";
 }

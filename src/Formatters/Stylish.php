@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Formatters\Stylish;
+namespace Differ\Formatters\Stylish;
 
 use Illuminate\Support\Collection;
 
@@ -66,21 +66,16 @@ function getRenderFn($type)
     }
 }
 
-function render(array $ast, int $depth = 0): string
+function renderStylish(array $ast, int $depth = 0): string
 {
     $lines = collect($ast)
         ->map(
             function ($node) use ($depth) {
                 $type = $node["type"];
-                return getRenderFn($type)($node, $depth + 1, __NAMESPACE__ . '\\' . 'render');
+                return getRenderFn($type)($node, $depth + 1, __NAMESPACE__ . '\\' . 'renderStylish');
             }
         )
         ->join("\n");
     $indent = indent($depth);
     return "{\n{$lines}\n{$indent}}";
-}
-
-function renderStylish($ast): string
-{
-    return render($ast) . "\n";
 }

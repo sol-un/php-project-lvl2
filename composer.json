@@ -4,13 +4,13 @@
   "type": "utility",
   "autoload": {
     "files": [
-      "src/gendiff.php",
-      "src/builder.php",
-      "src/formatters/index.php",
-      "src/formatters/stylish.php",
-      "src/formatters/plain.php",
-      "src/formatters/json.php",
-      "src/parser.php"
+      "src/Differ.php",
+      "src/Builder.php",
+      "src/Parser.php",
+      "src/Formatters/Index.php",
+      "src/Formatters/Stylish.php",
+      "src/Formatters/Plain.php",
+      "src/Formatters/Json.php"
     ]
   },
   "authors": [

@@ -1,11 +1,11 @@
 <?php
 
-namespace Gendiff\Tests;
+namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Gendiff\Gendiff\gendiff;
-use function Gendiff\Gendiff\readFile;
+use function Differ\Differ\gendiff;
+use function Differ\Differ\readFile;
 
 function getFixturePath(string $filename): string
 {
@@ -28,10 +28,10 @@ class GendiffTest extends TestCase
     {
         $beforeJSON = getFixturePath('before.json');
         $afterJSON = getFixturePath('after.json');
-        
-        $this->assertEquals(gendiff('stylish', $beforeJSON, $afterJSON), $this->expectedStylish);
-        $this->assertEquals(gendiff('plain', $beforeJSON, $afterJSON), $this->expectedPlain);
-        $this->assertEquals(gendiff('json', $beforeJSON, $afterJSON), $this->expectedJson);
+
+        $this->assertEquals(gendiff($beforeJSON, $afterJSON, 'stylish'), $this->expectedStylish);
+        $this->assertEquals(gendiff($beforeJSON, $afterJSON, 'plain'), $this->expectedPlain);
+        $this->assertEquals(gendiff($beforeJSON, $afterJSON, 'json'), $this->expectedJson);
     }
 
     public function testGendiffYAML(): void
@@ -39,8 +39,8 @@ class GendiffTest extends TestCase
         $beforeYAML = getFixturePath('before.yaml');
         $afterYAML = getFixturePath('after.yaml');
 
-        $this->assertEquals(gendiff('stylish', $beforeYAML, $afterYAML), $this->expectedStylish);
-        $this->assertEquals(gendiff('plain', $beforeYAML, $afterYAML), $this->expectedPlain);
-        $this->assertEquals(gendiff('json', $beforeYAML, $afterYAML), $this->expectedJson);
+        $this->assertEquals(gendiff($beforeYAML, $afterYAML, 'stylish'), $this->expectedStylish);
+        $this->assertEquals(gendiff($beforeYAML, $afterYAML, 'plain'), $this->expectedPlain);
+        $this->assertEquals(gendiff($beforeYAML, $afterYAML, 'json'), $this->expectedJson);
     }
 }
