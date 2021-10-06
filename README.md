@@ -3,7 +3,7 @@
 
 # Gendiff
 
-This is a simple utility that takes two json/yml/ini files and creates a customizable visual diff. Gendiff is written in PHP as a pet project under the guidance of Hexlet, a self-education platform. [Learn more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link).
+This is a simple utility that takes two JSON/Y(A)ML files and creates a customizable visual diff. Gendiff is written in PHP as a pet project under the guidance of Hexlet, a self-education platform. [Learn more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link).
 
 ## Requirements
 
@@ -23,7 +23,7 @@ make install
 ```
 gendiff (-h|--help) // show help
 gendiff (-v|--version) // show current version
-gendiff [--format <fmt>] <firstFile> <secondFile> // take two json/yml/ini files and show the diff 
+gendiff [--format <fmt>] <firstFile> <secondFile> // take two JSON/Y(A)ML files and show the diff 
 ```
 
 ## Demo

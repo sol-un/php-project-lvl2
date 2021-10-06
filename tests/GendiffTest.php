@@ -21,6 +21,7 @@ class GendiffTest extends TestCase
     {
         $this->expectedStylish = readFile(getFixturePath('expected_stylish.txt'));
         $this->expectedPlain = readFile(getFixturePath('expected_plain.txt'));
+        $this->expectedJson = readFile(getFixturePath('expected_json.txt'));
     }
 
     public function testGendiffJSON(): void
@@ -30,6 +31,7 @@ class GendiffTest extends TestCase
         
         $this->assertEquals(gendiff('stylish', $beforeJSON, $afterJSON), $this->expectedStylish);
         $this->assertEquals(gendiff('plain', $beforeJSON, $afterJSON), $this->expectedPlain);
+        $this->assertEquals(gendiff('json', $beforeJSON, $afterJSON), $this->expectedJson);
     }
 
     public function testGendiffYAML(): void
@@ -39,5 +41,6 @@ class GendiffTest extends TestCase
 
         $this->assertEquals(gendiff('stylish', $beforeYAML, $afterYAML), $this->expectedStylish);
         $this->assertEquals(gendiff('plain', $beforeYAML, $afterYAML), $this->expectedPlain);
+        $this->assertEquals(gendiff('json', $beforeYAML, $afterYAML), $this->expectedJson);
     }
 }
