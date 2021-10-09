@@ -30,4 +30,4 @@ gendiff [--format <fmt>] <firstFile> <secondFile> // take two JSON/Y(A)ML files 
 
 ## Demo
 
-[coming soon]
+[![asciicast](https://asciinema.org/a/6O5cI8YkjGzYhudpMxxXN6x6b.svg)](https://asciinema.org/a/6O5cI8YkjGzYhudpMxxXN6x6b)
