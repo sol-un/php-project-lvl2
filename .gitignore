@@ -1,3 +1,7 @@
-/vendor/
-/.idea/
-phpstan.neon
+vendor
+.idea
+logs
+*.swo
+*.swp
+*.cache
+build
