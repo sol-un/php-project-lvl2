@@ -2,7 +2,9 @@
 
 namespace Differ\Formatters\Plain;
 
-function renderValue($value): string
+use Exception;
+
+function renderValue(mixed $value): string
 {
     switch (gettype($value)) {
         case "boolean":
@@ -23,7 +25,7 @@ function renderPath(array $parentNames, string $name): string
     return implode('.', [...$parentNames, $name]);
 }
 
-function getRenderFn($type)
+function getRenderFn(string $type): callable
 {
     switch ($type) {
         case "nested":
@@ -50,6 +52,8 @@ function getRenderFn($type)
             };
         case "unchanged":
             return fn () => null;
+        default:
+            throw new Exception("Unknown node type: {$type}");
     }
 }
 

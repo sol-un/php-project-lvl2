@@ -2,6 +2,7 @@
 
 namespace Differ\Formatters\Stylish;
 
+use Exception;
 use Illuminate\Support\Collection;
 
 function indent(int $depth): string
@@ -15,7 +16,7 @@ function renderLine(int $depth, string $prefix, string $key, $value): string
     return "{$indent}{$prefix}{$key}: {$value}";
 }
 
-function renderValue($value, int $depth): string
+function renderValue(mixed $value, int $depth): string
 {
     switch (gettype($value)) {
         case "boolean":
@@ -26,7 +27,7 @@ function renderValue($value, int $depth): string
             $rendered = collect($value)
                 ->map(
                     function ($value, $key) use ($depth) {
-                        return renderLine($depth, '      ', $key, renderValue($value, $depth + 2));
+                        return renderLine($depth + 2, '  ', $key, renderValue($value, $depth + 2));
                     }
                 )
                 ->join("\n");
@@ -37,7 +38,7 @@ function renderValue($value, int $depth): string
     }
 }
 
-function getRenderFn($type)
+function getRenderFn(string $type): callable
 {
     switch ($type) {
         case "nested":
@@ -63,6 +64,8 @@ function getRenderFn($type)
             return function ($node, $depth) {
                 return renderLine($depth, '  ', $node["name"], renderValue($node["value"], $depth));
             };
+        default:
+            throw new Exception("Unknown node type: {$type}");
     }
 }
 

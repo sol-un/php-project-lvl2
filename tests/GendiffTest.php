@@ -5,23 +5,23 @@ namespace Differ\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Differ\Differ\gendiff;
-use function Differ\Differ\readFile;
 
 function getFixturePath(string $filename): string
 {
-    return "tests/fixtures/{$filename}";
+    return implode('/', ['tests', 'fixtures', $filename]);
 }
 
 class GendiffTest extends TestCase
 {
-    private $expectedStylish;
-    private $expectedPlain;
+    private $expectedStylishPath;
+    private $expectedPlainPath;
+    private $expectedJsonPath;
 
     public function setUp(): void
     {
-        $this->expectedStylish = readFile(getFixturePath('expected_stylish.txt'));
-        $this->expectedPlain = readFile(getFixturePath('expected_plain.txt'));
-        $this->expectedJson = readFile(getFixturePath('expected_json.txt'));
+        $this->expectedStylishPath = getFixturePath('expected_stylish.txt');
+        $this->expectedPlainPath = getFixturePath('expected_plain.txt');
+        $this->expectedJsonPath = getFixturePath('expected_json.txt');
     }
 
     public function testGendiffJSON(): void
@@ -29,9 +29,9 @@ class GendiffTest extends TestCase
         $beforeJSON = getFixturePath('before.json');
         $afterJSON = getFixturePath('after.json');
 
-        $this->assertEquals(gendiff($beforeJSON, $afterJSON, 'stylish'), $this->expectedStylish);
-        $this->assertEquals(gendiff($beforeJSON, $afterJSON, 'plain'), $this->expectedPlain);
-        $this->assertEquals(gendiff($beforeJSON, $afterJSON, 'json'), $this->expectedJson);
+        $this->assertStringEqualsFile($this->expectedStylishPath, gendiff($beforeJSON, $afterJSON, 'stylish'));
+        $this->assertStringEqualsFile($this->expectedPlainPath, gendiff($beforeJSON, $afterJSON, 'plain'));
+        $this->assertStringEqualsFile($this->expectedJsonPath, gendiff($beforeJSON, $afterJSON, 'json'));
     }
 
     public function testGendiffYAML(): void
@@ -39,8 +39,8 @@ class GendiffTest extends TestCase
         $beforeYAML = getFixturePath('before.yaml');
         $afterYAML = getFixturePath('after.yaml');
 
-        $this->assertEquals(gendiff($beforeYAML, $afterYAML, 'stylish'), $this->expectedStylish);
-        $this->assertEquals(gendiff($beforeYAML, $afterYAML, 'plain'), $this->expectedPlain);
-        $this->assertEquals(gendiff($beforeYAML, $afterYAML, 'json'), $this->expectedJson);
+        $this->assertStringEqualsFile($this->expectedStylishPath, gendiff($beforeYAML, $afterYAML, 'stylish'));
+        $this->assertStringEqualsFile($this->expectedPlainPath, gendiff($beforeYAML, $afterYAML, 'plain'));
+        $this->assertStringEqualsFile($this->expectedJsonPath, gendiff($beforeYAML, $afterYAML, 'json'));
     }
 }

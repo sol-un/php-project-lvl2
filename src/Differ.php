@@ -6,7 +6,7 @@ use function Differ\Builder\build;
 use function Differ\Formatters\Index\render;
 use function Differ\Parser\parse;
 
-function readFile(string $path)
+function readFile(string $path): string
 {
     return file_get_contents(realpath($path));
 }

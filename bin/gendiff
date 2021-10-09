@@ -33,4 +33,4 @@ $args = \Docopt::handle($doc, array('version' => 'Gendiff 1.0'));
 ["--format" => $format, "<firstFile>" => $firstFilePath, "<secondFile>" => $secondFilePath] = $args;
 
 $diff = gendiff($firstFilePath, $secondFilePath, $format);
-print_r($diff);
+print_r($diff . "\n");

@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 function build(array $prevData, array $newData): array
 {
-    $ast = collect(array_keys($prevData))
+    return collect(array_keys($prevData))
         ->merge(array_keys($newData))
         ->unique()
         ->sort()
@@ -52,5 +52,4 @@ function build(array $prevData, array $newData): array
             }
         )
         ->all();
-    return $ast;
 }
