@@ -11,7 +11,7 @@ function readFile(string $path): string
     return file_get_contents(realpath($path));
 }
 
-function gendiff(string $firstFilePath, string $secondFilePath, string $format = 'stylish'): string
+function genDiff(string $firstFilePath, string $secondFilePath, string $format = 'stylish'): string
 {
     $firstFileExtension = pathinfo($firstFilePath, PATHINFO_EXTENSION);
     $secondFileExtension = pathinfo($secondFilePath, PATHINFO_EXTENSION);
