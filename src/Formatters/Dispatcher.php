@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Formatters\Index;
+namespace Differ\Formatters\Dispatcher;
 
 use Exception;
 

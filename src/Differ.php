@@ -3,7 +3,7 @@
 namespace Differ\Differ;
 
 use function Differ\Builder\build;
-use function Differ\Formatters\Index\render;
+use function Differ\Formatters\Dispatcher\render;
 use function Differ\Parser\parse;
 
 function readFile(string $path): string
