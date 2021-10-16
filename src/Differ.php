@@ -2,13 +2,19 @@
 
 namespace Differ\Differ;
 
+use Exception;
+
 use function Differ\Builder\build;
 use function Differ\Formatters\Dispatcher\render;
 use function Differ\Parser\parse;
 
 function readFile(string $path): string
 {
-    return file_get_contents(realpath($path));
+    $absPath = realpath($path);
+    if (!$absPath) {
+        throw new Exception("File not found: '{$path}'");
+    }
+    return file_get_contents($absPath);
 }
 
 function genDiff(string $firstFilePath, string $secondFilePath, string $format = 'stylish'): string
