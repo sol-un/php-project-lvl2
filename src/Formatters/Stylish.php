@@ -10,7 +10,7 @@ function indent(int $depth): string
     return str_repeat('  ', $depth);
 }
 
-function renderLine(int $depth, string $prefix, string $key, $value): string
+function renderLine(int $depth, string $prefix, string $key, string $value): string
 {
     $indent = indent($depth);
     return "{$indent}{$prefix}{$key}: {$value}";
@@ -27,45 +27,14 @@ function renderValue(mixed $value, int $depth): string
             $rendered = collect($value)
                 ->map(
                     function ($value, $key) use ($depth) {
-                        return renderLine($depth + 2, '  ', $key, renderValue($value, $depth + 2));
+                        return renderLine($depth + 3, '  ', $key, renderValue($value, $depth + 2));
                     }
                 )
                 ->join("\n");
-            $indent = indent($depth + 1);
+            $indent = indent($depth + 2);
             return "{\n{$rendered}\n{$indent}}";
         default:
             return "{$value}";
-    }
-}
-
-function getRenderFn(string $type): callable
-{
-    switch ($type) {
-        case "nested":
-            return function ($node, $depth, $render) {
-                return renderLine($depth, '  ', $node["name"], $render($node["children"], $depth + 1));
-            };
-        case "added":
-            return function ($node, $depth) {
-                return renderLine($depth, '+ ', $node["name"], renderValue($node["value"], $depth));
-            };
-        case "deleted":
-            return function ($node, $depth) {
-                return renderLine($depth, '- ', $node["name"], renderValue($node["value"], $depth));
-            };
-        case "changed":
-            return function ($node, $depth) {
-                $deletedLine = renderLine($depth, '- ', $node["name"], renderValue($node["prevValue"], $depth));
-                $addedLine = renderLine($depth, '+ ', $node["name"], renderValue($node["newValue"], $depth));
-
-                return "{$deletedLine}\n{$addedLine}";
-            };
-        case "unchanged":
-            return function ($node, $depth) {
-                return renderLine($depth, '  ', $node["name"], renderValue($node["value"], $depth));
-            };
-        default:
-            throw new Exception("Unknown node type: {$type}");
     }
 }
 
@@ -74,8 +43,23 @@ function renderStylish(array $ast, int $depth = 0): string
     $lines = collect($ast)
         ->map(
             function ($node) use ($depth) {
-                $type = $node["type"];
-                return getRenderFn($type)($node, $depth + 1, __NAMESPACE__ . '\\' . 'renderStylish');
+                switch ($node["type"]) {
+                    case "nested":
+                        return renderLine($depth + 1, '  ', $node["name"], renderStylish($node["children"], $depth + 2));
+                    case "added":
+                        return renderLine($depth + 1, '+ ', $node["name"], renderValue($node["value"], $depth));
+                    case "deleted":
+                        return renderLine($depth + 1, '- ', $node["name"], renderValue($node["value"], $depth));
+                    case "changed":
+                        $deletedLine = renderLine($depth + 1, '- ', $node["name"], renderValue($node["prevValue"], $depth));
+                        $addedLine = renderLine($depth + 1, '+ ', $node["name"], renderValue($node["newValue"], $depth));
+
+                        return "{$deletedLine}\n{$addedLine}";
+                    case "unchanged":
+                        return renderLine($depth + 1, '  ', $node["name"], renderValue($node["value"], $depth));
+                    default:
+                        throw new Exception("Unknown node type: {$node["type"]}");
+                }
             }
         )
         ->join("\n");
