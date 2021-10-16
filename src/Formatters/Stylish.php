@@ -12,7 +12,7 @@ function indent(int $depth): string
 
 function renderLine(int $depth, string $prefix, string $key, string $value): string
 {
-    $indent = indent($depth);
+    $indent = indent($depth + 1);
     return "{$indent}{$prefix}{$key}: {$value}";
 }
 
@@ -27,7 +27,7 @@ function renderValue(mixed $value, int $depth): string
             $rendered = collect($value)
                 ->map(
                     function ($value, $key) use ($depth) {
-                        return renderLine($depth + 3, '  ', $key, renderValue($value, $depth + 2));
+                        return renderLine($depth + 2, '  ', $key, renderValue($value, $depth + 2));
                     }
                 )
                 ->join("\n");
@@ -45,18 +45,18 @@ function renderStylish(array $ast, int $depth = 0): string
             function ($node) use ($depth) {
                 switch ($node["type"]) {
                     case "nested":
-                        return renderLine($depth + 1, '  ', $node["name"], renderStylish($node["children"], $depth + 2));
+                        return renderLine($depth, '  ', $node["name"], renderStylish($node["children"], $depth + 2));
                     case "added":
-                        return renderLine($depth + 1, '+ ', $node["name"], renderValue($node["value"], $depth));
+                        return renderLine($depth, '+ ', $node["name"], renderValue($node["value"], $depth));
                     case "deleted":
-                        return renderLine($depth + 1, '- ', $node["name"], renderValue($node["value"], $depth));
+                        return renderLine($depth, '- ', $node["name"], renderValue($node["value"], $depth));
                     case "changed":
-                        $deletedLine = renderLine($depth + 1, '- ', $node["name"], renderValue($node["prevValue"], $depth));
-                        $addedLine = renderLine($depth + 1, '+ ', $node["name"], renderValue($node["newValue"], $depth));
+                        $line1 = renderLine($depth, '- ', $node["name"], renderValue($node["prevValue"], $depth));
+                        $line2 = renderLine($depth, '+ ', $node["name"], renderValue($node["newValue"], $depth));
 
-                        return "{$deletedLine}\n{$addedLine}";
+                        return "{$line1}\n{$line2}";
                     case "unchanged":
-                        return renderLine($depth + 1, '  ', $node["name"], renderValue($node["value"], $depth));
+                        return renderLine($depth, '  ', $node["name"], renderValue($node["value"], $depth));
                     default:
                         throw new Exception("Unknown node type: {$node["type"]}");
                 }

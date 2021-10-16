@@ -2,6 +2,9 @@
   "name": "hexlet/code",
   "description": "Takes two json/yml/ini files and creates a customizable visual diff",
   "type": "utility",
+  "bin": [
+    "bin/gendiff"
+  ],
   "autoload": {
     "files": [
       "src/Differ.php",
