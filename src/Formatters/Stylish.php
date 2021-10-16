@@ -20,13 +20,13 @@ function renderValue(mixed $value, int $depth): string
 {
     switch (gettype($value)) {
         case "boolean":
-            return $value ? "true" : "false";
+            return (bool) $value ? "true" : "false";
         case "NULL":
             return "null";
         case "array":
             $rendered = collect($value)
                 ->map(
-                    function ($value, $key) use ($depth) {
+                    function ($value, $key) use ($depth): string {
                         return renderLine($depth + 2, '  ', $key, renderValue($value, $depth + 2));
                     }
                 )
@@ -42,7 +42,7 @@ function renderStylish(array $ast, int $depth = 0): string
 {
     $lines = collect($ast)
         ->map(
-            function ($node) use ($depth) {
+            function ($node) use ($depth): string {
                 switch ($node["type"]) {
                     case "nested":
                         return renderLine($depth, '  ', $node["name"], renderStylish($node["children"], $depth + 2));

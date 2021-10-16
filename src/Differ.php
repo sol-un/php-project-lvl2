@@ -8,21 +8,23 @@ use function Differ\Builder\build;
 use function Differ\Formatters\Dispatcher\render;
 use function Differ\Parser\parse;
 
-function readFile(string $path): string
+function readFile(string $path): array
 {
     $absPath = realpath($path);
-    if (!$absPath) {
+    if ($absPath === false) {
         throw new Exception("File not found: '{$path}'");
     }
-    return file_get_contents($absPath);
+    $contents = file_get_contents($absPath);
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
+    return [$contents, $extension];
 }
 
-function genDiff(string $firstFilePath, string $secondFilePath, string $format = 'stylish'): string
+function genDiff(string $firstFilePath, string $secondFilePath, string $format = 'stylish'): string|false
 {
-    $firstFileExtension = pathinfo($firstFilePath, PATHINFO_EXTENSION);
-    $secondFileExtension = pathinfo($secondFilePath, PATHINFO_EXTENSION);
-    $prevData = parse(readFile($firstFilePath), $firstFileExtension);
-    $newData = parse(readFile($secondFilePath), $secondFileExtension);
+    [$firstFileContents, $firstFileExtension] = readFile($firstFilePath);
+    [$secondFileContents, $secondFileExtension] = readFile($secondFilePath);
+    $prevData = parse($firstFileContents, $firstFileExtension);
+    $newData = parse($secondFileContents, $secondFileExtension);
     $ast = build($prevData, $newData);
     return render($ast, $format);
 }

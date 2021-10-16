@@ -8,7 +8,7 @@ function renderValue(mixed $value): string
 {
     switch (gettype($value)) {
         case "boolean":
-            return $value ? "true" : "false";
+            return (bool) $value ? "true" : "false";
         case "NULL":
             return "null";
         case "array":
@@ -29,7 +29,7 @@ function renderPlain(array $ast, array $parentNames = []): string
 {
     return collect($ast)
         ->map(
-            function ($node) use ($parentNames) {
+            function ($node) use ($parentNames): ?string {
                 switch ($node["type"]) {
                     case "nested":
                         return renderPlain($node["children"], [...$parentNames, $node["name"]]);
