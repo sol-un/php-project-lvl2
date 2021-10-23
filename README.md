@@ -27,7 +27,3 @@ gendiff (-h|--help) // show help
 gendiff (-v|--version) // show current version
 gendiff [--format <fmt>] <firstFile> <secondFile> // take two JSON/Y(A)ML files and show the diff 
 ```
-
-## Demo
-
-[![asciicast](https://asciinema.org/a/E1UKhbdaWd2KiIGFZ8IReFd0N.svg)](https://asciinema.org/a/E1UKhbdaWd2KiIGFZ8IReFd0N)
